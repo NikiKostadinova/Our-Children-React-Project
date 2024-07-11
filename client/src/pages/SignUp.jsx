@@ -1,6 +1,7 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import GoogleAuth from "../components/GoogleAuth";
 
 
 export default function SignUp() {
@@ -45,7 +46,7 @@ export default function SignUp() {
         {/* left side */}
         <div className="flex-2">
           <Link to="/" className='font-bold dark:text-white text-4xl'>
-            <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>Our Children</span>
+            <span className='px-2 py-1 bg-gradient-to-r  from-pink-500  to-orange-400 rounded-lg text-white'>Our Children</span>
             Blog
           </Link>
           <p className="text-sm mt-5">
@@ -83,7 +84,7 @@ export default function SignUp() {
                 onChange={handleChange}
               />
             </div>
-            <Button gradientDuoTone="purpleToPink" type="submit" disabled={loading}>
+            <Button gradientDuoTone="pinkToOrange" type="submit" disabled={loading}>
               {
                 loading ? (
                   <>
@@ -93,6 +94,7 @@ export default function SignUp() {
                 ) : "Sign Up"
               }
             </Button>
+            <GoogleAuth />
           </form>
           <div className="flex gap-2 text-sm mt-2">
             <span>Have an account?</span>
