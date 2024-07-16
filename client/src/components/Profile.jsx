@@ -1,16 +1,25 @@
-import { Alert, Button, TextInput } from "flowbite-react";
+import { Alert, Button, Modal, TextInput } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { updateStart, updateSuccess, updateFailure } from "../redux/user/userSlice";
+import {
+    updateStart,
+    updateSuccess,
+    updateFailure,
+    deleteUserAccountStart,
+    deleteUserAccountSuccess,
+    deleteUserAccountFailure,
+    signOutSuccess,
+} from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
+import { HiOutlineExclamation } from "react-icons/hi";
 
 
 export default function Profile() {
-    const { currentUser } = useSelector(state => state.user);
+    const { currentUser, error } = useSelector(state => state.user);
     const [imageFile, setImageFile] = useState(null);
     const [imageFileUrl, setImageFileUrl] = useState(null);
     const [imgUploadingProgress, setImgUploadingProgress] = useState(null);
@@ -18,6 +27,7 @@ export default function Profile() {
     const [imgFileUploading, setImgFileUploading] = useState(false);
     const [successUserUpdate, setSuccessUserUpdate] = useState(null);
     const [errorUpdateUser, setErrorUpdateUser] = useState(null);
+    const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState({});
     const filePickerRef = useRef();
     const dispatch = useDispatch();
@@ -98,13 +108,47 @@ export default function Profile() {
                 setErrorUpdateUser(data.message);
             } else {
 
-                dispatch(updateSuccess(data)); 
+                dispatch(updateSuccess(data));
                 setSuccessUserUpdate("User's profile updated successfully!")
             }
         } catch (error) {
             dispatch(updateFailure(error.message));
             setErrorUpdateUser(error.message);
-           
+
+        }
+    };
+
+    const deleteUser = async () => {
+        setShowModal(false);
+        try {
+            dispatch(deleteUserAccountStart());
+            const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+                method: 'DELETE'
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                dispatch(deleteUserAccountFailure(data.message));
+            } else {
+                dispatch(deleteUserAccountSuccess(data));
+            }
+        } catch (error) {
+            dispatch(deleteUserAccountFailure(error.message));
+        }
+    }
+
+    const signOut = async () => {
+        try {
+            const res = await fetch('/api/user/signout', {
+                method: 'POST'
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                console.log(data.message);
+            } else {
+              dispatch(signOutSuccess());
+            }
+        } catch (error) {
+            console.log(error.message);
         }
     }
     return (
@@ -141,8 +185,8 @@ export default function Profile() {
                 <Button type="submit" gradientDuoTone="pinkToOrange" outline>Update</Button>
             </form>
             <div className="text-red-400 flex justify-between mt-5">
-                <span className="cursor-pointer">Delete Account</span>
-                <span className="cursor-pointer">Sign Out</span>
+                <span onClick={() => setShowModal(true)} className="cursor-pointer">Delete Account</span>
+                <span onClick={signOut} className="cursor-pointer">Sign Out</span>
 
             </div>
             {successUserUpdate && (
@@ -155,6 +199,24 @@ export default function Profile() {
                     {errorUpdateUser}
                 </Alert>
             )}
+            {error && (
+                <Alert color='failure' className="mt-5">
+                    {error}
+                </Alert>
+            )}
+            <Modal show={showModal} onClose={() => setShowModal(false)} popup size='md'>
+                <Modal.Header />
+                <Modal.Body>
+                    <div className="text-center">
+                        <HiOutlineExclamation className="h-14 w-14 text-red-700 mb-4 mx-auto" />
+                        <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">Are you sure you want to delete your account?</h3>
+                        <div className="flex justify-center gap-4">
+                            <Button color='failure' onClick={deleteUser}>Yes, I am sure</Button>
+                            <Button onClick={() => setShowModal(false)}>No, cancel</Button>
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal>
         </div>
     );
 }
