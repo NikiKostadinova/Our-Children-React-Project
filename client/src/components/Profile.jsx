@@ -1,5 +1,6 @@
 import { Alert, Button, Modal, TextInput } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
+import {Link} from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
@@ -19,7 +20,7 @@ import { HiOutlineExclamation } from "react-icons/hi";
 
 
 export default function Profile() {
-    const { currentUser, error } = useSelector(state => state.user);
+    const { currentUser, error, loading } = useSelector(state => state.user);
     const [imageFile, setImageFile] = useState(null);
     const [imageFileUrl, setImageFileUrl] = useState(null);
     const [imgUploadingProgress, setImgUploadingProgress] = useState(null);
@@ -43,7 +44,7 @@ export default function Profile() {
         if (imageFile) {
             uploadImg();
         }
-    }, [imageFile]);
+    }, [imageFile, ]);
     const uploadImg = async () => {
         setImgUploadError(null);
         setImgFileUploading(true);
@@ -182,7 +183,13 @@ export default function Profile() {
                 <TextInput type="text" id="username" placeholder="username" defaultValue={currentUser.username} onChange={handleChange} />
                 <TextInput type="email" id="email" placeholder="email" defaultValue={currentUser.email} onChange={handleChange} />
                 <TextInput type="password" id="password" placeholder="password" onChange={handleChange} />
-                <Button type="submit" gradientDuoTone="pinkToOrange" outline>Update</Button>
+                <Button type="submit" gradientDuoTone="pinkToOrange" outline disabled={loading || imgFileUploading}>{loading ? 'Loading...' : 'Update'}</Button>
+                {currentUser.isAdmin && (
+                    <Link to={'add-new-post'}>
+                    <Button type='button' gradientDuoTone='pinkToOrange' className="w-full">New Post</Button>
+                    </Link>
+                    
+                )}
             </form>
             <div className="text-red-400 flex justify-between mt-5">
                 <span onClick={() => setShowModal(true)} className="cursor-pointer">Delete Account</span>
