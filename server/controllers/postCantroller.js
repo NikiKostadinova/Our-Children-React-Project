@@ -1,4 +1,5 @@
-import { errorHandler } from "../utils/error.js"
+import { errorHandler } from "../utils/error.js";
+import Post from '../models/postModel.js'
 
 export const add = async (req, res, next) => {
 
@@ -15,7 +16,7 @@ export const add = async (req, res, next) => {
     });
     try {
         const savedPost = await newPost.save();
-        res.status(201).join(savedPost);
+        res.status(201).json(savedPost);
     } catch (error) {
         next(error)
     }
