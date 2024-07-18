@@ -185,7 +185,7 @@ export default function Profile() {
                 <TextInput type="password" id="password" placeholder="password" onChange={handleChange} />
                 <Button type="submit" gradientDuoTone="pinkToOrange" outline disabled={loading || imgFileUploading}>{loading ? 'Loading...' : 'Update'}</Button>
                 {currentUser.isAdmin && (
-                    <Link to={'add-new-post'}>
+                    <Link to={'/add-new-post'}>
                     <Button type='button' gradientDuoTone='pinkToOrange' className="w-full">New Post</Button>
                     </Link>
                     

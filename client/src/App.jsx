@@ -8,6 +8,8 @@ import Projects from './pages/Projects';
 import Header from './components/Header';
 import FooterComponent from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
+import AdminRoute from './components/AdminRoute';
+import AddPost from './pages/AddPost';
 
 
 
@@ -23,6 +25,9 @@ export default function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+        <Route element={<AdminRoute />}>
+          <Route path="/add-new-post" element={<AddPost />} />
         </Route>
         <Route path="/projects" element={<Projects />} />
       </Routes>
