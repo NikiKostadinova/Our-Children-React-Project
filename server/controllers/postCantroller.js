@@ -21,3 +21,35 @@ export const add = async (req, res, next) => {
         next(error)
     }
 };
+
+export const getPosts = async (req, res, next) => {
+    try {
+        const indexStart = parseInt(req.query.indexStart) || 0;
+        const limit = parseInt(req.query.limit) || 9;
+        const sort = req.query.order === 'asc' ? 1 : -1;
+        const posts = await Post.find({
+            ...(req.query.userId && { userId: req.query.userId}),
+            ...(req.query.category && { category: req.query.category}),
+            ...(req.query.slug && { slug: req.query.slug}),
+            ...(req.query.postId && { _id: req.query.postId}),
+            ...(req.query.searchTerm && { 
+                $or: [
+                    {title: {$regex: req.query.searchTerm, $options: 'i'}},
+                    {content: {$regex: req.query.searchTerm, $options: 'i'}}
+                ],
+            }),
+            
+     } ).sort({updatedAt: sort}).skip(indexStart).limit(limit);
+
+     const totalPosts = await Post.countDocuments();
+
+     res.status(200).json({
+        posts,
+        totalPosts
+     });
+     
+
+    } catch (error) {
+        next(error)
+    }
+}
