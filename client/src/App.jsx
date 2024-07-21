@@ -10,6 +10,7 @@ import FooterComponent from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
 import AddPost from './pages/AddPost';
+import EditPost from './pages/EditPost';
 
 
 
@@ -28,6 +29,8 @@ export default function App() {
         </Route>
         <Route element={<AdminRoute />}>
           <Route path="/add-new-post" element={<AddPost />} />
+          <Route path="/edit-post/:postId" element={<EditPost />} />
+
         </Route>
         <Route path="/projects" element={<Projects />} />
       </Routes>

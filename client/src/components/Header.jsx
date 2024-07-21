@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme } from '../redux/theme/themeSlice';
 import { signOutSuccess } from '../redux/user/userSlice';
 import { useNavigate } from 'react-router-dom';
+import logo1 from '../assets/logo.png'
 
 
 export default function Header() {
@@ -32,9 +33,10 @@ export default function Header() {
 }
   return (
     <Navbar className='border-b-2 p-4 flex justify-between items-center'>
-      <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
-        <span className='px-2 py-1 bg-gradient-to-r  from-pink-500  to-orange-400 rounded-lg text-white'>Our Children</span>
-        Blog
+      <Link to="/" className='flex self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
+      <img src={logo1} alt="Logo" className=' h-10 w-auto mr-3' />
+        <span className='font-extrabold text-transparent text-3xl bg-clip-text bg-gradient-to-r from-pink-500 to-orange-400'>Our Children</span>
+        
       </Link>
       <form >
         <TextInput
