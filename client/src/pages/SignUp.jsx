@@ -2,6 +2,7 @@ import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import GoogleAuth from "../components/GoogleAuth";
+import logo1 from '../assets/logo.png'
 
 
 export default function SignUp() {
@@ -42,14 +43,14 @@ export default function SignUp() {
   }
   return (
     <div className="min-h-screen mt-20">
-      <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
+      <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-10">
         {/* left side */}
         <div className="flex-2">
-          <Link to="/" className='font-bold dark:text-white text-4xl'>
-            <span className='px-2 py-1 bg-gradient-to-r  from-pink-500  to-orange-400 rounded-lg text-white'>Our Children</span>
-            Blog
+          <Link to="/" className='flex font-bold dark:text-white text-4xl'>
+          <img src={logo1} alt="Logo" className=' h-12 w-auto mr-3' />
+          <span className='font-extrabold text-transparent text-5xl bg-clip-text bg-gradient-to-r from-pink-500 to-orange-400'>Our Children</span>
           </Link>
-          <p className="text-sm mt-5">
+          <p className="text-sm text-center mt-5">
             Place to share experiance with our children
           </p>
 

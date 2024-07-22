@@ -1,6 +1,7 @@
-import { Avatar, Button, Dropdown, Navbar, TextInput } from 'flowbite-react';
+import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react';
+// import {TextInput } from 'flowbite-react';
 import { Link, useLocation } from 'react-router-dom';
-import { AiOutlineSearch } from 'react-icons/ai';
+// import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme } from '../redux/theme/themeSlice';
@@ -35,10 +36,10 @@ export default function Header() {
     <Navbar className='border-b-2 p-4 flex justify-between items-center'>
       <Link to="/" className='flex self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
       <img src={logo1} alt="Logo" className=' h-10 w-auto mr-3' />
-        <span className='font-extrabold text-transparent text-3xl bg-clip-text bg-gradient-to-r from-pink-500 to-orange-400'>Our Children</span>
+        <span className='hidden sm:inline font-extrabold text-transparent text-3xl bg-clip-text bg-gradient-to-r from-pink-500 to-orange-400 '>Our Children</span>
         
       </Link>
-      <form >
+      {/* <form >
         <TextInput
           type='text'
           placeholder='Search...'
@@ -48,9 +49,9 @@ export default function Header() {
       </form>
       <Button className='w-12 h-10 lg:hidden' color='grey' pill>
         <AiOutlineSearch />
-      </Button>
-      <div className='flex gap-2 md:order-2'>
-        <Button className='w-20 h-10 hidden sm:inline' color='grey' pill onClick={() => dispatch(toggleTheme())}>
+      </Button> */}
+      <div className='flex gap-1 md:order-2'>
+        <Button className='w-20 h-10 sm:inline' color='grey' pill onClick={() => dispatch(toggleTheme())}>
         {theme === 'light' ? <FaMoon /> : <FaSun />}
         </Button>
         {currentUser ? (
