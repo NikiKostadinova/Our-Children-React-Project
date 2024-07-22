@@ -11,6 +11,7 @@ import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
 import AddPost from './pages/AddPost';
 import EditPost from './pages/EditPost';
+import Post from './pages/Post';
 
 
 
@@ -33,6 +34,8 @@ export default function App() {
 
         </Route>
         <Route path="/projects" element={<Projects />} />
+        <Route path="/post/:postSlug" element={<Post />} />
+
       </Routes>
       <FooterComponent />
 

@@ -122,7 +122,7 @@ export default function AddPost() {
                         placeholder="Your content here..."
                         required
                         id="content"
-                        className="border-2 border-gray-300 rounded-lg p-4 h-72 mb-4"  
+                        className="border-2 border-gray-300 rounded-lg p-4 h-72 mb-4 whitespace-pre-wrap"  
                         onChange={(e) => 
                             setFormData({...formData, content: e.target.value})
                             }                      
