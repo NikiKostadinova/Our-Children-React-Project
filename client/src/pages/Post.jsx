@@ -9,7 +9,7 @@ export default function Post() {
     const [error, setError] = useState(false);
     const [post, setPost] = useState(null);
 
-    console.log(error, post)
+    // console.log(error, post)
 
     useEffect(() => {
         const fetchPost = async () => {
