@@ -10,14 +10,14 @@ export default function FooterComponent() {
         <Footer container className="border border-t-8 border-red-400">
             <div className="w-full max-w-7xl mx-auto">
                 <div className="grid w-full justify-between sm:flex md:grid-cols-1">
-                    <div className="mt-5">
+                    <div className="mt-5 mr-10">
                         <Link to="/" className='flex self-center whitespace-nowrap text-lg sm:text-xl font-semibold dark:text-white'>
                             <img src={logo1} alt="Logo" className=' h-10 w-auto mr-3' />
                             <span className='font-extrabold text-transparent text-3xl bg-clip-text bg-gradient-to-r from-pink-500 to-orange-400'>Our Children</span>
 
                         </Link>
                     </div>
-                    <div className="grid grid-cols-2 gap-8 mt-4 sm:grid-cols-3 sm:gap-6">
+                    <div className="grid grid-cols-2 gap-8 mt-4 sm:grid-cols-3 sm:gap-3">
                         <div>
                             <Footer.Title title="About" />
                             <Footer.LinkGroup col>

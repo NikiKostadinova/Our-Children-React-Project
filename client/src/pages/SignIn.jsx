@@ -67,6 +67,7 @@ export default function SignIn() {
                 placeholder="Email"
                 id="email"
                 onChange={handleChange}
+                className="shadow-none"
               />
             </div>
             <div>
@@ -89,12 +90,7 @@ export default function SignIn() {
               }
             </Button>
             <GoogleAuth />
-          </form>
-          <div className="flex gap-2 text-sm mt-2">
-            <span>Dont have an account?</span>
-            <Link to="/sign-up" className="text-blue-500">Sign Up</Link>          </div>
-        </div>
-        <div>
+            <div>
           {
             errorMessage && (
               <Alert className="mt-5" color="failure">
@@ -102,6 +98,12 @@ export default function SignIn() {
               </Alert>)
           }
         </div>
+          </form>
+          <div className="flex gap-2 text-sm mt-2">
+            <span>Dont have an account?</span>
+            <Link to="/sign-up" className="text-blue-500">Sign Up</Link>          </div>
+        </div>
+        
       </div>
     </div>
   )

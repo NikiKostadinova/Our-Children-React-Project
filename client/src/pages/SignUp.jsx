@@ -32,7 +32,7 @@ export default function SignUp() {
         return setErrorMessage(data.message);
       }
       setLoading(false);
-      if(res.ok){
+      if (res.ok) {
         navigate("/sign-in");
       }
     } catch (error) {
@@ -47,8 +47,8 @@ export default function SignUp() {
         {/* left side */}
         <div className="flex-2">
           <Link to="/" className='flex font-bold dark:text-white text-4xl'>
-          <img src={logo1} alt="Logo" className=' h-12 w-auto mr-3' />
-          <span className='font-extrabold text-transparent text-5xl bg-clip-text bg-gradient-to-r from-pink-500 to-orange-400'>Our Children</span>
+            <img src={logo1} alt="Logo" className=' h-12 w-auto mr-3' />
+            <span className='font-extrabold text-transparent text-5xl bg-clip-text bg-gradient-to-r from-pink-500 to-orange-400'>Our Children</span>
           </Link>
           <p className="text-sm text-center mt-5">
             Place to share experiance with our children
@@ -96,12 +96,7 @@ export default function SignUp() {
               }
             </Button>
             <GoogleAuth />
-          </form>
-          <div className="flex gap-2 text-sm mt-2">
-            <span>Have an account?</span>
-            <Link to="/sign-in" className="text-blue-500">Sign In</Link>          </div>
-        </div>
-        <div>
+            <div>
           {
             errorMessage && (
               <Alert className="mt-5" color="failure">
@@ -109,6 +104,12 @@ export default function SignUp() {
               </Alert>)
           }
         </div>
+          </form>
+          <div className="flex gap-2 text-sm mt-2">
+            <span>Have an account?</span>
+            <Link to="/sign-in" className="text-blue-500">Sign In</Link>          </div>
+        </div>
+        
       </div>
     </div>
   )

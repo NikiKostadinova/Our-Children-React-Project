@@ -1,6 +1,7 @@
 import { Spinner } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
+import Comments from "../components/Comments";
 
 export default function Post() {
     const { postSlug } = useParams();
@@ -48,5 +49,6 @@ export default function Post() {
         <div className="mb-10">
         <pre className="whitespace-pre-wrap font-sans p-3 max-w-2xl mx-auto w-full">{post && post.content}</pre>
         </div>
+        <Comments postId={post._id} />
     </main>
 }
