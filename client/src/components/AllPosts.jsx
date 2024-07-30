@@ -11,7 +11,7 @@ export default function AllPosts() {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState(null);
-   console.log(postIdToDelete)
+ 
     useEffect(() => {
       const fetchPosts = async () => {
         try {

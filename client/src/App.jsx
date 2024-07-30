@@ -4,7 +4,7 @@ import About from './pages/About';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import Dashboard from './pages/Dashboard';
-import Projects from './pages/Projects';
+import Forum from './pages/Forum';
 import Header from './components/Header';
 import FooterComponent from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
@@ -35,7 +35,7 @@ export default function App() {
           <Route path="/edit-post/:postId" element={<EditPost />} />
 
         </Route>
-        <Route path="/projects" element={<Projects />} />
+        <Route path="/forum" element={<Forum />} />
         <Route path="/post/:postSlug" element={<Post />} />
 
       </Routes>

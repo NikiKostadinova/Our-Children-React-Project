@@ -17,7 +17,7 @@ export default function AddPost() {
    const [errorPublishing, setErrorPublishing] = useState(null);
 
    const navigate = useNavigate();
-   console.log(uploadingImgProgress, errorUploadingImg, errorPublishing)
+
     const uploadImg = async () =>{
         try {
             if(!file){

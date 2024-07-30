@@ -88,7 +88,7 @@ export default function Header() {
           <Link to='/about' className="nav-link">About</Link>
         </Navbar.Link>
         <Navbar.Link active={path === '/projects'} as={'div'}>
-          <Link to='/projects' className="nav-link">Projects</Link>
+          <Link to='/forum' className="nav-link">Forum</Link>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar >
