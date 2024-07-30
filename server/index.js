@@ -5,6 +5,7 @@ import userRouter from './routes/userRoute.js';
 import authRoutes from './routes/authRoute.js';
 import postRoutes from './routes/postRoute.js';
 import commentRoutes from './routes/commentRoute.js';
+import discussionRoutes from './routes/discussionRoute.js';
 
 import cookieParser from 'cookie-parser';
 
@@ -29,7 +30,8 @@ app.listen(5001, () => {
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRoutes);
 app.use('/api/post', postRoutes);
-app.use('/api/comment', commentRoutes)
+app.use('/api/comment', commentRoutes);
+app.use('/api/discussion', discussionRoutes);
 
 app.use( (err, req, res, next) =>{
    const statusCode = err.statusCode || 500;
