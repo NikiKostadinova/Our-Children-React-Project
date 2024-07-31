@@ -12,11 +12,14 @@ export default function DiscussionDisplay({ discussion }) {
       <div className='p-3 flex flex-col gap-2 '>
         <p className='text-lg font-semibold line-clamp-2'>{discussion.title}</p>
         <p className='italic text-sm mb-3'>{discussion.category}</p>  
-        <FaMessage />     
+        <div className='flex items-center gap-1 mb-2 text-gray-500 dark:text-gray-300 group-hover:hidden'>
+            <FaMessage />
+            <p>56</p>
+          </div>   
       </div>
-      <div className='absolute  bottom-0 left-0 right-0 p-3 transition-all duration-300 translate-y-[100%] group-hover:translate-y-0'>
+      <div className='absolute  bottom-0 left-0 right-0 p-1 transition-all duration-300 translate-y-[100%] group-hover:translate-y-0'>
         <div className='p-3'>
-        <p className='line-clamp-4 text-gray-500 dark:text-gray-400'>{discussion.content}</p>
+        <p className='line-clamp-4 text-gray-500 dark:text-gray-300'>{discussion.content}</p>
         </div>
         </div>
         </Link>

@@ -127,7 +127,7 @@ export default function Comments({ postId }) {
             ) : (
                 <div>
                     You must be signed in to comment!
-                    <Link to={'/sign-in'}>Sign In</Link>
+                    <Link to={'/sign-in'} className="p-2 text-red-400">Sign In</Link>
                 </div>
             )}
             {currentUser && (

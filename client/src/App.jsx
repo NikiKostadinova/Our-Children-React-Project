@@ -15,6 +15,8 @@ import Post from './pages/Post';
 import TopOfThePage from './components/TopOfThePage';
 import StartDiscussion from './pages/StartDiscussion';
 import Discussion from './pages/Discussion';
+import DiscussionsByCategory from './pages/DiscussionsByCategory';
+
 
 
 
@@ -40,6 +42,7 @@ export default function App() {
         </Route>
         <Route path="/forum" element={<Forum />} />
         <Route path="/post/:postSlug" element={<Post />} />
+        <Route path="/discussions" element={<DiscussionsByCategory />} />
         <Route path="/discussion/:discussionSlug" element={<Discussion />} />
 
 

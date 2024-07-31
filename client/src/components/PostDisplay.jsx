@@ -14,7 +14,7 @@ export default function PostDisplay({ post }) {
       </div>
       <div className='absolute  bottom-0 left-0 right-0 p-3 transition-all duration-300 translate-y-[100%] group-hover:translate-y-0'>
         <div className='p-3'>
-        <p className='line-clamp-4 text-gray-500 dark:text-gray-400'>{post.content}</p>
+        <p className='line-clamp-4 text-gray-500 dark:text-gray-300'>{post.content}</p>
         </div>
         </div>
         </Link>
