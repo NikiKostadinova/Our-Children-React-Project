@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import PostDisplay from '../components/PostDisplay';
 import { Link } from "react-router-dom";
+import BannerHomePage2 from '../assets/BannerHomePage2.png'
 
 
 export default function Home() {
@@ -16,9 +17,9 @@ export default function Home() {
   }, [])
   return (
     <div>
-      <div className="flex flex-col gap-4 lg:p-28 px-5 max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold lg:text-6xl">Welcome</h1>
-        <p className="text-gray-500 text-sm sm:text-md ">What to expect...</p>
+      <div className="flex flex-col w-full relative">
+      <img src={BannerHomePage2} alt="Banner" className='w-full h-full object-cover' />
+        
       </div>
       <div className="max-w-8xl mx-auto p-3 flex flex-col gap-8 py-7 ">
         {posts && posts.length > 0 && (

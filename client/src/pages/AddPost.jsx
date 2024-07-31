@@ -92,11 +92,11 @@ export default function AddPost() {
                     }>
                         <option value="uncategorized">Category</option>
                         <option value="pregnancy">Pregnancy</option>
-                        <option value="newborn">New Born</option>
+                        <option value="newborn">Newborn</option>
                         <option value="firstyear">First Year</option>
                         <option value="toddlers">Toddlers</option>
                         <option value="preschoolers">Preschoolers</option>
-                        <option value="schoolage">School Age Children</option>
+                        <option value="schoolage">School Age</option>
                         <option value="teens">Teens</option>
 
                     </Select>

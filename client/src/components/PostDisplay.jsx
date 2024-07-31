@@ -10,7 +10,7 @@ export default function PostDisplay({ post }) {
       
       <div className='p-3 flex flex-col gap-2 '>
         <p className='text-lg font-semibold line-clamp-2'>{post.title}</p>
-        <p className='italic text-sm mb-3'>{post.category}</p>       
+        <p className='italic text-sm mb-3'>{post.category}</p>            
       </div>
       <div className='absolute  bottom-0 left-0 right-0 p-3 transition-all duration-300 translate-y-[100%] group-hover:translate-y-0'>
         <div className='p-3'>
