@@ -7,7 +7,11 @@ const commentSchema = new mongoose.Schema({
     },
     postId: {
         type: String,
-        required: true
+        required: false
+    },
+    discussionId: {
+        type: String,
+        required: false 
     },
     userId: {
         type: String,
@@ -23,6 +27,13 @@ const commentSchema = new mongoose.Schema({
     },
     
 },{ timestamps: true})
+
+commentSchema.pre('save', function(next) {
+    if (!this.postId && !this.discussionId) {
+        return next(new Error('Either postId or discussionId must be provided'));
+    }
+    next();
+});
 
 const Comment = mongoose.model('Comment', commentSchema);
 

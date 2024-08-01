@@ -61,7 +61,7 @@ export default function Forum() {
 function Card({ image, title, category }) {
   return (
     
-    <div className='group relative w-full sm:w-1/2 md:w-[130px]  border border-red-400 hover:border-2 h-[180px] overflow-hidden rounded-lg transition-all'>
+    <div className='group relative w-full sm:w-1/2 md:w-[130px]  border border-red-400 hover:border-2 h-[180px] overflow-hidden rounded-lg transition-all '>
       <Link to={`/discussions?category=${encodeURIComponent(category)}`}>
         <img src={image} alt={title} className='h-[130px] w-full object-cover group-hover:h-[200px] transition-all duration-300 z-20 rounded-t-lg' />
 

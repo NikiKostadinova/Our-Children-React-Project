@@ -48,6 +48,11 @@ export default function DSidebar() {
                    <Link to='/dashboard?tab=posts'>
                 <Sidebar.Item active={tab === 'posts'} icon={HiDocumentText} as="div">Posts</Sidebar.Item> 
                 </Link>  
+                )} 
+                 {currentUser.isAdmin && (
+                   <Link to='/dashboard?tab=discussions'>
+                <Sidebar.Item active={tab === 'discussions'} icon={HiDocumentText} as="div">Discussion</Sidebar.Item> 
+                </Link>  
                 )}                         
                 <Sidebar.Item icon={HiArrowSmRight} className="cursor-pointer" onClick={signOut}>
                     Sign Out

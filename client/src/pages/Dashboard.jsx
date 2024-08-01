@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import DSidebar from '../components/DSidebar'
 import Profile from "../components/Profile";
-import AllPosts from '../components/AllPosts';
+
 import DashboardComponent from "../components/DashboardComponent";
-// import DashboardComments from "../components/DashboardComments";
+import AllDiscussions from "../components/AllDiscussions";
+
+import AllPostsDisplay from "../components/AllPostsDisplay";
+
 
 export default function Dashboard() {
   const location = useLocation();
@@ -26,7 +29,9 @@ export default function Dashboard() {
       {/* profile... */}
       {tab === 'profile' && <Profile />}
       {/* {posts ...} */}
-      {tab === 'posts' && <AllPosts />}
+      {tab === 'posts' && <AllPostsDisplay />}
+       {/* {discussions ...} */}
+       {tab === 'discussions' && <AllDiscussions />}
       {/* dashboard component */}
       {tab === 'dashboard' && <DashboardComponent />}
     </div>

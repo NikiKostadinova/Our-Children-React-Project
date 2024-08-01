@@ -7,8 +7,8 @@ import { HiOutlineExclamation } from "react-icons/hi";
 import Comment from "./Comment";
 
 
-export default function Comments({ postId }) {
-    // const { postId } = useParams();
+export default function Comments({ postId, discussionId }) {
+       
     const { currentUser } = useSelector(state => state.user);
     const [comment, setComment] = useState('');
     const [commentError, setCommentError] = useState(null);
@@ -17,6 +17,7 @@ export default function Comments({ postId }) {
     const [commentToBeDeleted, setCommentToBeDeleted] = useState(null);
     const navigate = useNavigate();
 
+    
     const addComment = async (e) => {
         e.preventDefault();
         try {
@@ -25,7 +26,7 @@ export default function Comments({ postId }) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ content: comment, postId, userId: currentUser._id })
+                body: JSON.stringify({ content: comment, postId, discussionId, userId: currentUser._id })
             }
             );
 
@@ -38,14 +39,17 @@ export default function Comments({ postId }) {
         } catch (error) {
             setCommentError(error.message)
         }
-
-
     };
 
     useEffect(() => {
+
         const getComments = async () => {
+           
             try {
-                const res = await fetch(`/api/comment/getComments/${postId}`);
+                const id = postId || discussionId;
+                const type = postId ? 'postId' : 'discussionId';
+                const res = await fetch(`/api/comment/getComments/${type}/${id}`);
+                console.log(`/api/comment/getComments/${type}/${id}`);
                 if (res.ok) {
                     const data = await res.json();
                     setComments(data)
@@ -54,9 +58,11 @@ export default function Comments({ postId }) {
                 console.log(error.message);
             }
         }
+        if (postId || discussionId){
+            getComments();
 
-        getComments();
-    }, [postId]);
+        }
+    }, [postId, discussionId]);
 
     const manageLike = async (commentId) => {
         try {

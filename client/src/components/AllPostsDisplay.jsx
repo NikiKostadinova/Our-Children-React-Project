@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import { HiOutlineExclamation } from "react-icons/hi";
 
-export default function AllPosts() {
+export default function AllPostsDisplay() {
   const {currentUser} = useSelector((state) => state.user);
   const [currentUserPosts, setCurrentUserPosts] = useState([]);
   const [showMore, setShowMore] = useState(true);

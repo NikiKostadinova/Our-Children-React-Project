@@ -4,7 +4,7 @@ import { errorHandler } from "../utils/error.js";
 
 export const addComment = async (req, res, next) => {
    try {
-    const { content, postId, userId} = req.body;
+    const { content, postId, discussionId, userId} = req.body;
 
     if(userId !== req.user.id){
         return next(errorHandler(403, 'Unathorized!'))
@@ -13,6 +13,7 @@ export const addComment = async (req, res, next) => {
     const newComment = new Comment({
         content,
         postId,
+        discussionId,
         userId
     });
 
@@ -23,17 +24,27 @@ export const addComment = async (req, res, next) => {
    } 
 }
 
-export const getComments  = async (req, res, next) => {
+export const getComments = async (req, res, next) => {
     try {
-        const comments = await Comment.find({ postId: req.params.postId}).sort({createdAt: -1});
+        const { type, id } = req.params; 
+
+        const filter = {};
+        if (type === 'postId') {
+            filter.postId = id;
+        } else if (type === 'discussionId') {
+            filter.discussionId = id;
+        } else {
+            return res.status(400).json({ error: "Invalid type. Use 'postId' or 'discussionId'" });
+        }
+
+        const comments = await Comment.find(filter).sort({ createdAt: -1 });
 
         res.status(200).json(comments);
-
-
     } catch (error) {
-        next(error)
+        next(error);
     }
-}
+};
+
 
 export const likeComment = async (req, res, next) => {
     try {
