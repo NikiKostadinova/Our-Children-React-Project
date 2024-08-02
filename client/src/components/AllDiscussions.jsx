@@ -1,8 +1,10 @@
-import { Button, Modal } from "flowbite-react";
+import { Button, Modal, Table } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import DiscussionCard from './DiscussionCard';
+// import DiscussionCard from './DiscussionCard';
 import { HiOutlineExclamation } from "react-icons/hi";
+import { Link } from "react-router-dom";
+// import DiscussionDisplay from "./DiscussionCard";
 
 export default function AllDiscussions() {
   const { currentUser } = useSelector((state) => state.user);
@@ -11,14 +13,15 @@ export default function AllDiscussions() {
   const [showModal, setShowModal] = useState(false);
   const [discussionIdToDelete, setDiscussionIdToDelete] = useState(null);
 
+
   useEffect(() => {
     const fetchDiscussions = async () => {
-      try {
-        console.log(`/api/discussion/getdiscussions?userId=${currentUser._id}`);
+      try {        
         const res = await fetch(`/api/discussion/getdiscussions?userId=${currentUser._id}`);
         const data = await res.json();
         if (res.ok) {
           setCurrentUserDiscussions(data.discussions);
+
           if (data.discussions.length < 9) {
             setShowMore(false);
           }
@@ -51,7 +54,7 @@ export default function AllDiscussions() {
   const deleteDiscussion = async () => {
     setShowModal(false);
     try {
-      const res = await fetch(`/api/discussion/deletepost/${discussionIdToDelete}/${currentUser._id}`, {
+      const res = await fetch(`/api/discussion/deletediscussion/${discussionIdToDelete}/${currentUser._id}`, {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -65,36 +68,67 @@ export default function AllDiscussions() {
     }
   };
 
+
   return (
-    <div className="p-3 w-[800px]">
+    <div className="flex flex-col max-w-2xl mx-auto  p-3 ">
       {currentUser.isAdmin && currentUserDiscussions.length > 0 ? (
         <>
-          <div className="flex flex-col space-y-4 w-auto">
-            {currentUserDiscussions.map((discussion) => (
-              <DiscussionCard
-                key={discussion._id}
-                image={discussion.image}
-                title={discussion.title}
-                category={discussion.category}
-                slug={discussion.slug}
-                onDelete={() => {
-                  setShowModal(true);
-                  setDiscussionIdToDelete(discussion._id);
-                }}
-                onEdit={() => {}} // Handle edit logic here if needed
-              />
-            ))}
-          </div>
-          {showMore && (
-            <button onClick={showMoreDiscussions} className="w-full text-teal-500 self-center text-sm py-7">Show More</button>
-          )}
+          <Table hoverable className="shadow-md">
+            <Table.Head>
+              <Table.HeadCell>Image</Table.HeadCell>
+              <Table.HeadCell>Title</Table.HeadCell>
+              <Table.HeadCell>Category</Table.HeadCell>
+              <Table.HeadCell>Delete</Table.HeadCell>
+              <Table.HeadCell>
+                <span>Edit</span>
+              </Table.HeadCell>
+            </Table.Head>
+
+            <Table.Body className="divide-y">
+              {currentUserDiscussions.map((discussion) => (
+                <Table.Row key={discussion._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell>
+                    <Link to={`/discussion/${discussion.slug}`}>
+                      <img
+                        src={discussion.image}
+                        alt={discussion.title}
+                        className='w-20 h-10 object-cover bg-gray-500'
+                      />
+                    </Link>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Link className="font-medium text-gray-900 dark:text-white" to={`/discussion/${discussion.slug}`}>{discussion.title}</Link>
+                  </Table.Cell>
+                  <Table.Cell>{discussion.category}</Table.Cell>
+                  <Table.Cell>
+                    <span onClick={() => {
+                      setShowModal(true);
+                      setDiscussionIdToDelete(discussion._id);
+                    }} className="font-medium text-red-400 hover:text-red-500 cursor-pointer">Delete</span>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Link className="text-teal-400 hover:text-teal-500" to={`/edit-discussion/${discussion._id}`}>
+                      <span>Edit</span>
+                    </Link>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+
+          </Table>
+
+          {
+            showMore && (
+              <button onClick={showMoreDiscussions} className="w-full text-teal-500 self-center text-sm py-7">Show More</button>
+            )
+          }
         </>
       ) : (
-        <p>Create Your First Discussion</p>
+        <p>Create Your First Post</p>
       )}
       <Modal show={showModal} onClose={() => setShowModal(false)} popup size='md'>
         <Modal.Header />
-        <Modal.Body>
+        <Modal.Body  >
           <div className="text-center">
             <HiOutlineExclamation className="h-14 w-14 text-red-700 mb-4 mx-auto" />
             <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">Are you sure you want to delete this discussion?</h3>
@@ -106,5 +140,6 @@ export default function AllDiscussions() {
         </Modal.Body>
       </Modal>
     </div>
-  );
+  )
+
 }

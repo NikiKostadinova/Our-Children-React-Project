@@ -16,6 +16,7 @@ import TopOfThePage from './components/TopOfThePage';
 import StartDiscussion from './pages/StartDiscussion';
 import Discussion from './pages/Discussion';
 import DiscussionsByCategory from './pages/DiscussionsByCategory';
+import EditDiscussion from './pages/EditDiscussion';
 
 
 
@@ -34,6 +35,7 @@ export default function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add-discussion" element={<StartDiscussion />} />
+          <Route path='/edit-discussion/:discussionId' element={< EditDiscussion />} />
         </Route>
         <Route element={<AdminRoute />}>
           <Route path="/add-new-post" element={<AddPost />} />

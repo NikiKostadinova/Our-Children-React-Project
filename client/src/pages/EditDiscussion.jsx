@@ -1,4 +1,4 @@
-// import { useEffect } from 'react';
+
 import { Alert, Button, FileInput, Select, TextInput, Textarea } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
@@ -9,21 +9,21 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
 
-export default function EditPost() {
+export default function EditDiscussion() {
 
     const [file, setFile] = useState(null);
     const [uploadingImgProgress, setUploadingImgProgress] = useState(null);
     const [errorUploadingImg, setErrorUploadingImg] = useState(null);
     const [formData, setFormData] = useState({ title: "", category: "uncategorized", content: "" });
     const [errorPublishing, setErrorPublishing] = useState(null);
-    const { postId } = useParams();
+    const { discussionId } = useParams();
 
     const navigate = useNavigate();
     const { currentUser } = useSelector((state) => state.user);
     useEffect(() => {
         try {
-            const fetchPost = async () => {
-                const res = await fetch(`/api/post/getposts?postId=${postId}`);
+            const fetchDiscussion = async () => {
+                const res = await fetch(`/api/discussion/getdiscussions?discussionId=${discussionId}`);
                 const data = await res.json();
                 if (!res.ok) {
                     console.log(data.message);
@@ -31,14 +31,14 @@ export default function EditPost() {
                 }
                 if (res.ok) {
                     setErrorPublishing(null);
-                    setFormData(data.posts[0]);
+                    setFormData(data.discussions[0]);
                 }
             }
-            fetchPost();
+            fetchDiscussion();
         } catch (error) {
             console.log(error)
         }
-    }, [postId]);
+    }, [discussionId]);
 
     console.log(uploadingImgProgress, errorUploadingImg, errorPublishing)
     const uploadImg = async () => {
@@ -78,11 +78,11 @@ export default function EditPost() {
         }
     };
 
-    const submitEditedPost = async (e) => {
+    const submitEditedDiscussion = async (e) => {
         e.preventDefault();
         try {
           
-            const res = await fetch(`/api/post/editpost/${formData._id}/${currentUser._id}`, {
+            const res = await fetch(`/api/discussion/editdiscussion/${formData._id}/${currentUser._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ export default function EditPost() {
 
             if (res.ok) {
                 setErrorPublishing(null);
-                navigate(`/post/${data.slug}`)
+                navigate(`/discussion/${data.slug}`)
             }
         } catch (error) {
             setErrorPublishing('Something went wrong!')
@@ -105,8 +105,8 @@ export default function EditPost() {
     }
     return (
         <div className="p-3 max-w-3xl mx-auto min-h-screen">
-            <h1 className="text-center text-3xl my-7 font-semibold">Update Post</h1>
-            <form className="flex flex-col gap-4" onSubmit={submitEditedPost}>
+            <h1 className="text-center text-3xl my-7 font-semibold">Update Discussion</h1>
+            <form className="flex flex-col gap-4" onSubmit={submitEditedDiscussion}>
                 <div className="flex flex-col gap-4 sm:flex-row justify-between">
                     <TextInput type="text" placeholder="Title" required id="title" className="flex-1" onChange={(e) =>
                         setFormData({ ...formData, title: e.target.value })

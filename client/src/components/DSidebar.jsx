@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signOutSuccess } from "../redux/user/userSlice";
 import { useSelector } from "react-redux";
-
+import { MdOutlineMessage } from "react-icons/md";
 
 export default function DSidebar() {
     const location = useLocation();
@@ -51,7 +51,7 @@ export default function DSidebar() {
                 )} 
                  {currentUser.isAdmin && (
                    <Link to='/dashboard?tab=discussions'>
-                <Sidebar.Item active={tab === 'discussions'} icon={HiDocumentText} as="div">Discussion</Sidebar.Item> 
+                <Sidebar.Item active={tab === 'discussions'} icon={MdOutlineMessage } as="div">Discussion</Sidebar.Item> 
                 </Link>  
                 )}                         
                 <Sidebar.Item icon={HiArrowSmRight} className="cursor-pointer" onClick={signOut}>
