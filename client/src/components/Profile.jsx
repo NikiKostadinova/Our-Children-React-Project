@@ -157,7 +157,7 @@ export default function Profile() {
             <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <input type="file" accept="image/*" onChange={handleImgChange} ref={filePickerRef} hidden />
-                <div className="relative w-32 h-32 self-center cursor-pointer shadow hover:shadow-md hover:shadow-red-400 overflow-hidden rounded-full" onClick={() => filePickerRef.current.click()}>
+                <div className="relative w-32 h-32 self-center cursor-pointer shadow overflow-hidden rounded-full" onClick={() => filePickerRef.current.click()}>
                     {imgUploadingProgress && (
                         <CircularProgressbar value={imgUploadingProgress || 0} text={`${imgUploadingProgress}%`} strokeWidth={5} styles={{
                             root: {

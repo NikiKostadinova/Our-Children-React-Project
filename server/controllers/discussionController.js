@@ -52,6 +52,18 @@ export const getDiscussion = async (req, res, next) => {
     }
 };
 
+export const getUserDiscussions = async (req, res, next) => {
+    console.log("Almost")
+
+    try {
+        const discussions = await Discussion.find({ userId: req.params.userId });
+        res.status(200).json(discussions);
+
+      } catch (error) {
+        next(error);
+      }
+}
+
 export const deleteDiscussion = async (req, res, next) => {
     if (!req.user.isAdmin || req.user.id !== req.params.userId) {
         return next(errorHandler(403, 'You are not allowed to delete this discussion!'));

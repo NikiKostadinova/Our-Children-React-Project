@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import DSidebar from '../components/DSidebar'
 import Profile from "../components/Profile";
 
-import DashboardComponent from "../components/DashboardComponent";
+import DashComponent from "../components/DashComponent";
 import AllDiscussions from "../components/AllDiscussions";
 
 import AllPostsDisplay from "../components/AllPostsDisplay";
@@ -15,25 +15,25 @@ export default function Dashboard() {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get('tab');
-    if(tabFromUrl) {
+    if (tabFromUrl) {
       setTab(tabFromUrl);
     }
   },
-[location.search]);
+    [location.search]);
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       <div className="md:w-56">
-           {/* Sidebar */}
-           <DSidebar />
+        {/* Sidebar */}
+        <DSidebar />
       </div>
       {/* profile... */}
       {tab === 'profile' && <Profile />}
       {/* {posts ...} */}
       {tab === 'posts' && <AllPostsDisplay />}
-       {/* {discussions ...} */}
-       {tab === 'discussions' && <AllDiscussions />}
+      {/* {discussions ...} */}
+      {tab === 'discussions' && <AllDiscussions />}
       {/* dashboard component */}
-      {tab === 'dashboard' && <DashboardComponent />}
+      {tab === 'dash' && <DashComponent />}
     </div>
   )
 }

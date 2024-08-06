@@ -45,6 +45,17 @@ export const getComments = async (req, res, next) => {
     }
 };
 
+export const getUserComments = async (req, res, next) => {
+
+    try {
+        const comments = await Comment.find({ userId: req.params.userId });
+        res.status(200).json(comments);
+
+      } catch (error) {
+        next(error);
+      }
+}
+
 
 export const likeComment = async (req, res, next) => {
     try {
