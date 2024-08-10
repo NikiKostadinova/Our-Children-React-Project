@@ -9,7 +9,7 @@ export default function Post() {
     const [error, setError] = useState(false);
     const [post, setPost] = useState(null);
 
-    console.log(error)
+   
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -28,6 +28,7 @@ export default function Post() {
                 }
 
             } catch (error) {
+                
                 setError(true);
                 setLoading(false);
             }
@@ -40,6 +41,7 @@ export default function Post() {
             <Spinner size="xl" />
         </div>
     )
+    console.log(error)
     return <main className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen">
         <h1 className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl">{post && post.title}</h1>
         <img src={post && post.image} alt={post && post.title} className="mt-10 p-3 max-h-[500px] max-w-[800px] object-cover self-center" />

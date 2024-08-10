@@ -1,4 +1,4 @@
-import { Sidebar } from "flowbite-react";
+import { Button, Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { HiUser, HiArrowSmRight, HiDocumentText } from 'react-icons/hi';
 import { Link, useLocation } from "react-router-dom";
@@ -36,11 +36,21 @@ export default function DSidebar() {
     }
   }
   return (
-    <Sidebar className="w-full md:w-56">
+    <Sidebar className="w-full md:w-56 shadow-md">
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-1">
           <Link to='/dashboard?tab=profile'>
             <img src={currentUser.profilePicture} alt="user" className='flex mx-auto rounded-xl md:w-full md:h-full object-cover mb-3 shadow-md' />
+
+            {currentUser.isAdmin && (
+              <Link to={'/add-new-post'}>
+                <Button type='button' gradientDuoTone='pinkToOrange' outline className="w-full gap-2" as="div">New Post</Button>
+              </Link>
+            )}
+            <Link to={'/add-discussion'}>
+              <Button type='button' gradientDuoTone='pinkToOrange' className="w-full" as="div">Start Discussion</Button>
+
+            </Link>
             <Sidebar.Item active={tab === 'profile'} icon={HiUser} label={currentUser.isAdmin ? 'Admin' : 'User'} labelColor='dark' as="div">
               Profile
             </Sidebar.Item>

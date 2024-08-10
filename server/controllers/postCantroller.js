@@ -24,10 +24,13 @@ export const add = async (req, res, next) => {
 
 export const getPosts = async (req, res, next) => {
     try {
-        const indexStart = parseInt(req.query.indexStart) || 0;
-        const limit = parseInt(req.query.limit) || 9;
+        const page = parseInt(req.query.page, 10) || 1;
+        const limit = parseInt(req.query.limit, 10) || 9;
         const sort = req.query.order === 'asc' ? 1 : -1;
-        const posts = await Post.find({
+        const skip = (page - 1) * limit;     
+        
+
+        const query = {
             ...(req.query.userId && { userId: req.query.userId }),
             ...(req.query.category && { category: req.query.category }),
             ...(req.query.slug && { slug: req.query.slug }),
@@ -38,21 +41,27 @@ export const getPosts = async (req, res, next) => {
                     { content: { $regex: req.query.searchTerm, $options: 'i' } }
                 ],
             }),
+        };
 
-        }).sort({ updatedAt: sort }).skip(indexStart).limit(limit);
+        const [posts, totalPosts] = await Promise.all([
+            Post.find(query).sort({ updatedAt: sort }).skip(skip).limit(limit),
+            Post.countDocuments(query)
+        ]);       
 
-        const totalPosts = await Post.countDocuments();
+        const totalPages = Math.ceil(totalPosts / limit);
 
         res.status(200).json({
             posts,
-            totalPosts
+            totalPosts,
+            totalPages,
+            currentPage: page
         });
 
-
     } catch (error) {
-        next(error)
+        next(error);
     }
 };
+
 
 export const deletePost = async (req, res, next) => {
     if (!req.user.isAdmin || req.user.id !== req.params.userId) {
@@ -89,4 +98,16 @@ export const editPost = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+}
+
+export const getPost = async (req, res, next) => {
+    try {
+        const post = await Post.findById(req.params.postId);
+        if (!post) {
+          return res.status(404).json({ message: 'Post not found' });
+        }
+        res.json(post);
+      } catch (error) {
+        next(error);
+      }
 }

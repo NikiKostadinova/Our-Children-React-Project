@@ -9,7 +9,7 @@ export default function Home() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await fetch('/api/post/getposts');
+      const res = await fetch('/api/post/getposts?limit=6');
       const data = await res.json();
       setPosts(data.posts);
     }
@@ -24,13 +24,13 @@ export default function Home() {
       <div className="max-w-8xl mx-auto p-3 flex flex-col gap-8 py-7 ">
         {posts && posts.length > 0 && (
           <div className="flex flex-col gap-5">
-            <h2 className="text-2xl font-semibold text-center">Recent Posts</h2>
+            <h2 className="text-4xl font-semibold text-center p-5">Recent Posts</h2>
             <div className="flex flex-wrap gap-2 justify-center">
               {posts.map((post) => (
                 <PostDisplay key={post._id} post={post} />
               ))}
             </div>
-            <Link to={''}
+            <Link to={'/allposts'}
               className="text-lg text-red-400 hover:text-red-500 text-center" >All Posts</Link>
           </div>
         )}

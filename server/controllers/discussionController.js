@@ -19,12 +19,15 @@ export const add = async (req, res, next) => {
     }
 };
 
-export const getDiscussion = async (req, res, next) => {
-    try {
-        const indexStart = parseInt(req.query.indexStart) || 0;
-        const limit = parseInt(req.query.limit) || 9;
-        const sort = req.query.order === 'asc' ? 1 : -1;
-        const discussions = await Discussion.find({
+export const getDiscussions = async (req, res, next) => {
+    try {       
+        
+        const page = parseInt(req.query.page, 10) || 1; 
+        const limit = parseInt(req.query.limit, 10) || 9; 
+        const sort = req.query.order === 'asc' ? 1 : -1; 
+        const skip = (page - 1) * limit;      
+        
+        const query = {
             ...(req.query.userId && { userId: req.query.userId }),
             ...(req.query.category && { category: req.query.category }),
             ...(req.query.slug && { slug: req.query.slug }),
@@ -36,21 +39,28 @@ export const getDiscussion = async (req, res, next) => {
                     { category: { $regex: req.query.searchTerm, $options: 'i' } },
                 ],
             }),
+        };
 
-        }).sort({ updatedAt: sort }).skip(indexStart).limit(limit);
-
-        const totalDiscussions = await Discussion.countDocuments();
+        
+        const [discussions, totalDiscussions] = await Promise.all([
+            Discussion.find(query).sort({ updatedAt: sort }).skip(skip).limit(limit),
+            Discussion.countDocuments(query)
+        ]);
+     
+        const totalPages = Math.ceil(totalDiscussions / limit);
 
         res.status(200).json({
             discussions,
-            totalDiscussions
+            totalDiscussions,
+            totalPages,
+            currentPage: page
         });
 
-
     } catch (error) {
-        next(error)
+        next(error);
     }
 };
+
 
 export const getUserDiscussions = async (req, res, next) => {
     console.log("Almost")
@@ -99,4 +109,16 @@ export const editDiscussion = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+}
+
+export const getDiscussion = async (req, res, next) => {
+    try {
+        const discussion = await Discussion.findById(req.params.discussionId);
+        if (!discussion) {
+          return res.status(404).json({ message: 'Discussion not found' });
+        }
+        res.json(discussion);
+      } catch (error) {
+        next(error);
+      }
 }

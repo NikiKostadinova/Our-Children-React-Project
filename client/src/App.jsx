@@ -17,6 +17,8 @@ import StartDiscussion from './pages/StartDiscussion';
 import Discussion from './pages/Discussion';
 import DiscussionsByCategory from './pages/DiscussionsByCategory';
 import EditDiscussion from './pages/EditDiscussion';
+import AllPosts from './pages/AllPosts';
+import PostByCategory from './pages/PostsByCategory';
 
 
 
@@ -42,9 +44,11 @@ export default function App() {
           <Route path="/edit-post/:postId" element={<EditPost />} />
 
         </Route>
+        <Route path="/allposts" element={<AllPosts />} />
         <Route path="/forum" element={<Forum />} />
         <Route path="/post/:postSlug" element={<Post />} />
         <Route path="/discussions" element={<DiscussionsByCategory />} />
+        <Route path="/posts" element={<PostByCategory />} />
         <Route path="/discussion/:discussionSlug" element={<Discussion />} />
 
 

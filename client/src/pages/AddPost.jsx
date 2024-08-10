@@ -91,13 +91,13 @@ export default function AddPost() {
                     setFormData({...formData, category: e.target.value})
                     }>
                         <option value="uncategorized">Category</option>
-                        <option value="pregnancy">Pregnancy</option>
-                        <option value="newborn">Newborn</option>
-                        <option value="firstyear">First Year</option>
-                        <option value="toddlers">Toddlers</option>
-                        <option value="preschoolers">Preschoolers</option>
-                        <option value="schoolage">School Age</option>
-                        <option value="teens">Teens</option>
+                        <option value="Pregnancy">Pregnancy</option>
+                        <option value="Newborn">Newborn</option>
+                        <option value="First Year">First Year</option>
+                        <option value="Toddlers">Toddlers</option>
+                        <option value="Pre Schoolers">Preschoolers</option>
+                        <option value="School Age">School Age</option>
+                        <option value="Teens">Teens</option>
 
                     </Select>
                 </div>
