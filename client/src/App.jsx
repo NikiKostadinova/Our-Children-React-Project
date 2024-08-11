@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
-import SignUp from './pages/SignUp';
-import SignIn from './pages/SignIn';
+
+
 import Dashboard from './pages/Dashboard';
 import Forum from './pages/Forum';
 import Header from './components/Header';
@@ -19,6 +19,9 @@ import DiscussionsByCategory from './pages/DiscussionsByCategory';
 import EditDiscussion from './pages/EditDiscussion';
 import AllPosts from './pages/AllPosts';
 import PostByCategory from './pages/PostsByCategory';
+import Register from './pages/Register';
+import LogIn from './pages/LogIn';
+
 
 
 
@@ -32,8 +35,8 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />        
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/register" element={<Register />} />        
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add-discussion" element={<StartDiscussion />} />

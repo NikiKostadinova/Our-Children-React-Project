@@ -1,4 +1,4 @@
-import { Button, Modal, Table } from "flowbite-react";
+import { Button, Modal, Pagination, Table } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 // import DiscussionCard from './DiscussionCard';
@@ -9,47 +9,37 @@ import { Link } from "react-router-dom";
 export default function AllDiscussions() {
   const { currentUser } = useSelector((state) => state.user);
   const [currentUserDiscussions, setCurrentUserDiscussions] = useState([]);
-  const [showMore, setShowMore] = useState(true);
+  
   const [showModal, setShowModal] = useState(false);
   const [discussionIdToDelete, setDiscussionIdToDelete] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const itemsPerPage = 4;
 
 
   useEffect(() => {
-    const fetchDiscussions = async () => {
-      try {        
-        const res = await fetch(`/api/discussion/getdiscussions?userId=${currentUser._id}`);
+    const fetchDiscussions = async (page) => {
+      try {
+
+        const res = await fetch(`/api/discussion/getdiscussions?page=${page}&limit=${itemsPerPage}`);
+
         const data = await res.json();
         if (res.ok) {
           setCurrentUserDiscussions(data.discussions);
+          setTotalPages(data.totalPages);
 
-          if (data.discussions.length < 9) {
-            setShowMore(false);
-          }
         }
       } catch (error) {
         console.log(error.message);
       }
     };
-    if (currentUser.isAdmin) {
-      fetchDiscussions();
-    }
-  }, [currentUser._id, currentUser.isAdmin]);
+    fetchDiscussions(currentPage)
+  }, [currentPage, currentUser._id, currentUser.isAdmin]);
 
-  const showMoreDiscussions = async () => {
-    const startIndex = currentUserDiscussions.length;
-    try {
-      const res = await fetch(`/api/discussion/getdiscussions?userId=${currentUser._id}&startIndex=${startIndex}`);
-      const data = await res.json();
-      if (res.ok) {
-        setCurrentUserDiscussions((previous) => [...previous, ...data.discussions]);
-        if (data.discussions.length < 9) {
-          setShowMore(false);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  }
 
   const deleteDiscussion = async () => {
     setShowModal(false);
@@ -71,14 +61,15 @@ export default function AllDiscussions() {
 
   return (
     <div className="flex flex-col max-w-2xl mx-auto  p-3 ">
+      <p className="mx-auto p-10 text-lg font-semibold">Your Discussions</p>
       {currentUser.isAdmin && currentUserDiscussions.length > 0 ? (
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
-              <Table.HeadCell>Image</Table.HeadCell>
-              <Table.HeadCell>Title</Table.HeadCell>
-              <Table.HeadCell>Category</Table.HeadCell>
-              <Table.HeadCell>Delete</Table.HeadCell>
+              <Table.HeadCell className="md:px-6 md:py-4">Image</Table.HeadCell>
+              <Table.HeadCell className="md:px-6 md:py-4">Title</Table.HeadCell>
+              <Table.HeadCell className=" hidden md:block  md:px-6 md:py-4">Category</Table.HeadCell>
+              <Table.HeadCell className="md:px-6 md:py-4">Delete</Table.HeadCell>
               <Table.HeadCell>
                 <span>Edit</span>
               </Table.HeadCell>
@@ -87,7 +78,7 @@ export default function AllDiscussions() {
             <Table.Body className="divide-y">
               {currentUserDiscussions.map((discussion) => (
                 <Table.Row key={discussion._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell>
+                  <Table.Cell className="p-2">
                     <Link to={`/discussion/${discussion.slug}`}>
                       <img
                         src={discussion.image}
@@ -96,17 +87,17 @@ export default function AllDiscussions() {
                       />
                     </Link>
                   </Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell className="p-1 pr-2 md:px-6 md:py-4">
                     <Link className="font-medium text-gray-900 dark:text-white" to={`/discussion/${discussion.slug}`}>{discussion.title}</Link>
                   </Table.Cell>
-                  <Table.Cell>{discussion.category}</Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell className="hidden md:block md:px-6 md:py-4">{discussion.category}</Table.Cell>
+                  <Table.Cell className="p-1 md:px-6 md:py-4">
                     <span onClick={() => {
                       setShowModal(true);
                       setDiscussionIdToDelete(discussion._id);
                     }} className="font-medium text-red-400 hover:text-red-500 cursor-pointer">Delete</span>
                   </Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell className="p-0 md:px-6 md:py-4">
                     <Link className="text-teal-400 hover:text-teal-500" to={`/edit-discussion/${discussion._id}`}>
                       <span>Edit</span>
                     </Link>
@@ -116,12 +107,18 @@ export default function AllDiscussions() {
             </Table.Body>
 
           </Table>
+          <Link to={'/add-discussion'}>
+            <Button type='button' gradientDuoTone='pinkToOrange' className="w-full mt-3">Start Discussion</Button>
+          </Link>
 
-          {
-            showMore && (
-              <button onClick={showMoreDiscussions} className="w-full text-teal-500 self-center text-sm py-7">Show More</button>
-            )
-          }
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            className="mx-auto p-5"
+          />
+
+
         </>
       ) : (
         <p>Create Your First Post</p>

@@ -1,17 +1,14 @@
-
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
 import GoogleAuth from "../components/GoogleAuth";
 import logo1 from '../assets/logo.png'
 
 
-export default function SignIn() {
+export default function Register() {
   const [formData, setFormData] = useState({});
-  const {loading, error: errorMessage} = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
@@ -19,27 +16,28 @@ export default function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.email || !formData.password) {
-      return dispatch(signInFailure('Please fill out all fields!'));
+    if (!formData.username || !formData.email || !formData.password) {
+      return setErrorMessage('Please fill out all fields!');
     }
     try {
-      dispatch(signInStart());
-      const res = await fetch("/api/auth/signin", {
+      setLoading(true);
+      setErrorMessage(null);
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
       });
       const data = await res.json();
       if (data.success === false) {
-        dispatch(signInFailure(data.message));
+        return setErrorMessage(data.message);
       }
-      
-      if(res.ok){
-        dispatch(signInSuccess(data));
-        navigate("/");
+      setLoading(false);
+      if (res.ok) {
+        navigate("/sign-in");
       }
     } catch (error) {
-      dispatch(signInFailure(error.message));
+      setErrorMessage(error.message);
+      setLoading(false);
 
     }
   }
@@ -49,8 +47,8 @@ export default function SignIn() {
         {/* left side */}
         <div className="flex-2">
           <Link to="/" className='flex font-bold dark:text-white text-4xl'>
-          <img src={logo1} alt="Logo" className=' h-12 w-auto mr-3' />
-          <span className='font-extrabold text-transparent text-5xl bg-clip-text bg-gradient-to-r from-pink-500 to-orange-400'>Our Children</span>
+            <img src={logo1} alt="Logo" className=' h-12 w-auto mr-3' />
+            <span className='font-extrabold text-transparent text-5xl bg-clip-text bg-gradient-to-r from-pink-500 to-orange-400'>Our Children</span>
           </Link>
           <p className="text-sm text-center mt-5">
             Place to share experiance with our children
@@ -59,7 +57,16 @@ export default function SignIn() {
         </div>
         {/* right side */}
         <div className="flex-1">
-          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>           
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+            <div>
+              <Label value="Your username" />
+              <TextInput
+                type="text"
+                placeholder="Username"
+                id="username"
+                onChange={handleChange}
+              />
+            </div>
             <div>
               <Label value="Your email" />
               <TextInput
@@ -67,14 +74,13 @@ export default function SignIn() {
                 placeholder="Email"
                 id="email"
                 onChange={handleChange}
-                className="shadow-none"
               />
             </div>
             <div>
               <Label value="Your password" />
               <TextInput
                 type="password"
-                placeholder="**********"
+                placeholder="Password"
                 id="password"
                 onChange={handleChange}
               />
@@ -86,7 +92,7 @@ export default function SignIn() {
                     <Spinner size="sm" />
                     <span className="pl-3">Loading...</span>
                   </>
-                ) : "Sign In"
+                ) : "Register"
               }
             </Button>
             <GoogleAuth />
@@ -100,8 +106,8 @@ export default function SignIn() {
         </div>
           </form>
           <div className="flex gap-2 text-sm mt-2">
-            <span>Dont have an account?</span>
-            <Link to="/sign-up" className="text-blue-500">Sign Up</Link>          </div>
+            <span>Have an account?</span>
+            <Link to="/sign-in" className="text-blue-500">Login</Link>          </div>
         </div>
         
       </div>

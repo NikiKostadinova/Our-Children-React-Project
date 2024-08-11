@@ -42,8 +42,8 @@ export default function PostByCategory() {
         <div className=' h-screen flex flex-col items-center'>
             <p className='text-3xl'>{category}</p>
         <p className="text-center mt-20 text-lg">There are no post in this category yet!</p>     
-        {currentUser.isAdmin && (
-            <Link to="/add-discussion" className="text-red-400 text-lg">Add Post</Link>
+        {currentUser && currentUser.isAdmin && (
+            <Link to="/add-new-post" className="text-red-400 text-lg">Add Post</Link>
         )}   
         
         </div>

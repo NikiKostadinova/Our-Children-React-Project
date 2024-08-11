@@ -28,7 +28,7 @@ export default function AllPosts() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
-  const postsPerPage = 9;
+  const postsPerPage = 6;
 
   useEffect(() => {
     const fetchPosts = async (page) => {

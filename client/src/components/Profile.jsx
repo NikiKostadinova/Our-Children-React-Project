@@ -1,7 +1,8 @@
 import { Alert, Button, Modal, TextInput } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
-import {Link} from 'react-router-dom';
+
 import { useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -30,6 +31,7 @@ export default function Profile() {
     const [errorUpdateUser, setErrorUpdateUser] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState({});
+    const navigate = useNavigate();
     const filePickerRef = useRef();
     const dispatch = useDispatch();
     const handleImgChange = (e) => {
@@ -44,7 +46,8 @@ export default function Profile() {
         if (imageFile) {
             uploadImg();
         }
-    }, [imageFile, ]);
+    }, [imageFile]);
+
     const uploadImg = async () => {
         setImgUploadError(null);
         setImgFileUploading(true);
@@ -137,21 +140,22 @@ export default function Profile() {
         }
     }
 
-    const signOut = async () => {
+    const logOut = async () => {
         try {
-            const res = await fetch('/api/user/signout', {
-                method: 'POST'
-            });
-            const data = await res.json();
-            if (!res.ok) {
-                console.log(data.message);
-            } else {
-              dispatch(signOutSuccess());
-            }
+          const res = await fetch('/api/user/signout', {
+            method: 'POST'
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            console.log(data.message);
+          } else {
+            dispatch(signOutSuccess());
+            navigate('/login');
+          }
         } catch (error) {
-            console.log(error.message);
+          console.log(error.message);
         }
-    }
+      }
     return (
         <div className="max-w-lg mx-auto p-3 w-full">
             <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
@@ -184,16 +188,11 @@ export default function Profile() {
                 <TextInput type="email" id="email" placeholder="email" defaultValue={currentUser.email} onChange={handleChange} />
                 <TextInput type="password" id="password" placeholder="password" onChange={handleChange} />
                 <Button type="submit" gradientDuoTone="pinkToOrange" outline disabled={loading || imgFileUploading}>{loading ? 'Loading...' : 'Update'}</Button>
-                {currentUser.isAdmin && (
-                    <Link to={'/add-new-post'}>
-                    <Button type='button' gradientDuoTone='pinkToOrange' className="w-full">New Post</Button>
-                    </Link>
-                    
-                )}
+
             </form>
             <div className="text-red-400 flex justify-between mt-5">
                 <span onClick={() => setShowModal(true)} className="cursor-pointer">Delete Account</span>
-                <span onClick={signOut} className="cursor-pointer">Sign Out</span>
+                <span onClick={logOut} className="cursor-pointer">Log Out</span>
 
             </div>
             {successUserUpdate && (
@@ -201,14 +200,9 @@ export default function Profile() {
                     {successUserUpdate}
                 </Alert>
             )}
-            {errorUpdateUser && (
+            {(errorUpdateUser || imgUploadError || error) && (
                 <Alert color='failure' className="mt-5">
-                    {errorUpdateUser}
-                </Alert>
-            )}
-            {error && (
-                <Alert color='failure' className="mt-5">
-                    {error}
+                    {errorUpdateUser || imgUploadError || error}
                 </Alert>
             )}
             <Modal show={showModal} onClose={() => setShowModal(false)} popup size='md'>

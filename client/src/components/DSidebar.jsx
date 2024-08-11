@@ -1,4 +1,4 @@
-import { Button, Sidebar } from "flowbite-react";
+import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { HiUser, HiArrowSmRight, HiDocumentText } from 'react-icons/hi';
 import { Link, useLocation } from "react-router-dom";
@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { signOutSuccess } from "../redux/user/userSlice";
 import { useSelector } from "react-redux";
 import { MdOutlineMessage } from "react-icons/md";
+import { MdOutlineDashboard } from "react-icons/md";
 
 export default function DSidebar() {
   const location = useLocation();
@@ -41,31 +42,23 @@ export default function DSidebar() {
         <Sidebar.ItemGroup className="flex flex-col gap-1">
           <Link to='/dashboard?tab=profile'>
             <img src={currentUser.profilePicture} alt="user" className='flex mx-auto rounded-xl md:w-full md:h-full object-cover mb-3 shadow-md' />
-
-            {currentUser.isAdmin && (
-              <Link to={'/add-new-post'}>
-                <Button type='button' gradientDuoTone='pinkToOrange' outline className="w-full gap-2" as="div">New Post</Button>
-              </Link>
-            )}
-            <Link to={'/add-discussion'}>
-              <Button type='button' gradientDuoTone='pinkToOrange' className="w-full" as="div">Start Discussion</Button>
-
-            </Link>
+            
+           
             <Sidebar.Item active={tab === 'profile'} icon={HiUser} label={currentUser.isAdmin ? 'Admin' : 'User'} labelColor='dark' as="div">
               Profile
             </Sidebar.Item>
           </Link>
           <Link to='/dashboard?tab=dash'>
-            <Sidebar.Item active={tab === 'dash'} icon={MdOutlineMessage} as="div">Dashboard</Sidebar.Item>
+            <Sidebar.Item active={tab === 'dash'} icon={MdOutlineDashboard} as="div">Dashboard</Sidebar.Item>
           </Link>
           {currentUser.isAdmin && (
             <Link to='/dashboard?tab=posts'>
-              <Sidebar.Item active={tab === 'posts'} icon={HiDocumentText} as="div">Posts</Sidebar.Item>
+              <Sidebar.Item active={tab === 'posts'} icon={HiDocumentText} as="div">Your Posts</Sidebar.Item>
             </Link>
           )}
 
           <Link to='/dashboard?tab=discussions'>
-            <Sidebar.Item active={tab === 'discussions'} icon={MdOutlineMessage} as="div">Discussion</Sidebar.Item>
+            <Sidebar.Item active={tab === 'discussions'} icon={MdOutlineMessage} as="div">Your Discussion</Sidebar.Item>
           </Link>
 
           <Sidebar.Item icon={HiArrowSmRight} className="cursor-pointer" onClick={signOut}>

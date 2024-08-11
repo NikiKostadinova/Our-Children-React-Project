@@ -21,14 +21,14 @@ export default function FooterComponent() {
                         <div>
                             <Footer.Title title="About" />
                             <Footer.LinkGroup col>
-                                <Footer.Link href="https://www.100jsprojects.com" target="_blank" rel="noopener noreferrer">Our Children</Footer.Link>
+                                <Footer.Link href="#" target="_blank" rel="noopener noreferrer">Our Children</Footer.Link>
                                 <Footer.Link href="/about" target="_blank" rel="noopener noreferrer">About Us</Footer.Link>
                             </Footer.LinkGroup>
                         </div>
                         <div>
                             <Footer.Title title="Follow Us" />
                             <Footer.LinkGroup col>
-                                <Footer.Link href="https://github.com/NikiKostadinova" target="_blank" rel="noopener noreferrer">Github</Footer.Link>
+                                <Footer.Link href="https://github.com/NikiKostadinova/Our-Children-React-Project" target="_blank" rel="noopener noreferrer">Github</Footer.Link>
                                 <Footer.Link href="#" target="_blank" rel="noopener noreferrer">Facebook</Footer.Link>
                             </Footer.LinkGroup>
                         </div>

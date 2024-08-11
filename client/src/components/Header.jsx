@@ -1,7 +1,7 @@
 import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react';
-// import {TextInput } from 'flowbite-react';
+
 import { Link, useLocation } from 'react-router-dom';
-// import { AiOutlineSearch } from 'react-icons/ai';
+
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme } from '../redux/theme/themeSlice';
@@ -16,7 +16,7 @@ export default function Header() {
   const { currentUser } = useSelector(state => state.user);
   const { theme } = useSelector((state) => state.theme);
   const navigate = useNavigate();
-  const signOut = async () => {
+  const logOut = async () => {
     try {
       const res = await fetch('/api/user/signout', {
         method: 'POST'
@@ -26,7 +26,7 @@ export default function Header() {
         console.log(data.message);
       } else {
         dispatch(signOutSuccess());
-        navigate('/sign-in');
+        navigate('/login');
       }
     } catch (error) {
       console.log(error.message);
@@ -58,12 +58,12 @@ export default function Header() {
               <Dropdown.Item>Dashboard</Dropdown.Item>
             </Link>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={signOut}>Sign Out</Dropdown.Item>
+            <Dropdown.Item onClick={logOut}>Log Out</Dropdown.Item>
           </Dropdown>
         ) :
           (
-            <Link to='/sign-in'>
-              <Button gradientDuoTone='pinkToOrange' outline>Sign In</Button>
+            <Link to='/login'>
+              <Button gradientDuoTone='pinkToOrange' outline>Login</Button>
             </Link>
           )
         }
@@ -71,18 +71,26 @@ export default function Header() {
         <Navbar.Toggle />
       </div >
       <Navbar.Collapse>
-        <Navbar.Link active={path === '/'} as={'div'}>
-          <Link to='/' className="nav-link">Home</Link>
-        </Navbar.Link>
-        <Navbar.Link active={path === '/about'} as={'div'}>
-          <Link to='/about' className="nav-link">About</Link>
-        </Navbar.Link>
-        <Navbar.Link active={path === '/about'} as={'div'}>
-          <Link to='/allposts' className="nav-link">Posts</Link>
-        </Navbar.Link>
-        <Navbar.Link active={path === '/projects'} as={'div'}>
-          <Link to='/forum' className="nav-link">Forum</Link>
-        </Navbar.Link>
+        <Link to='/' className="nav-link">
+          <Navbar.Link active={path === '/'} as={'div'} className={`${path === '/' ? 'bg-red-300 text-white dark:bg-red-400 ' : 'text-gray-700 dark:text-gray-300'} py-2 px-4 rounded-md`}>
+            Home
+          </Navbar.Link>
+        </Link>
+        <Link to='/about' className="nav-link">
+          <Navbar.Link active={path === '/about'} as={'div'} className={`${path === '/about' ? 'bg-red-300 text-white dark:bg-red-400 ' : 'text-gray-700 dark:text-gray-300'} py-2 px-4 rounded-md`}>
+            About
+          </Navbar.Link>
+        </Link>
+        <Link to='/allposts' className="nav-link">
+          <Navbar.Link active={path === '/allposts'}  as={'div'} className={`${path === '/allposts' ? 'bg-red-300 text-white dark:bg-red-400 ' : 'text-gray-700 dark:text-gray-300'} py-2 px-4 rounded-md`} >
+            Posts
+          </Navbar.Link>
+        </Link>
+        <Link to='/forum' className="nav-link">
+          <Navbar.Link active={path === '/forum'} as={'div'} className={`${path === '/forum' ? 'bg-red-300 text-white dark:bg-red-400 ' : 'text-gray-700 dark:text-gray-300'} py-2 px-4 rounded-md`}>
+            Forum
+          </Navbar.Link>
+        </Link>
       </Navbar.Collapse>
     </Navbar >
   )
