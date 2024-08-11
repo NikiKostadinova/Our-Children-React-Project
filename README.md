@@ -36,5 +36,5 @@ Technologies Used
         Firebase for Google Authentication and image uploads.
 
 Setup and Development
-nmp install
+npm install
 npm run dev ( for server and client)
