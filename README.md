@@ -37,5 +37,5 @@ Technologies Used
 
 Setup and Development
 
-npm install
-npm run dev ( for server and client)
+        npm install
+        npm run dev ( for server and client)
