@@ -4,6 +4,7 @@ import { MdOutlineMessage } from "react-icons/md";
 import CommentDisplay from '../components/CommentDisplay';
 import { TbMessages } from "react-icons/tb";
 import { CgFileDocument } from "react-icons/cg";
+import { Pagination } from "flowbite-react";
 
 export default function DashComponent() {
 
@@ -14,7 +15,11 @@ export default function DashComponent() {
     const [totalPostComments, setTotalPostComments] = useState(0);
     const [totalDiscussionComments, setTotalDiscussionComments] = useState(0);
     const { currentUser } = useSelector((state) => state.user);
-  
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const postsPerPage = 3;
+
+
 
     useEffect(() => {
         const fetchUserDiscussions = async () => {
@@ -43,11 +48,13 @@ export default function DashComponent() {
             }
         }
 
-        const fetchUserCommentsCount = async () => {
+        const fetchUserCommentsCount = async (page) => {
             try {
+              
+                const res = await fetch(`/api/comment/getUserComments/${currentUser._id}?page=${page}&limit=${postsPerPage}`);
 
-                const res = await fetch(`/api/comment/getUserComments/${currentUser._id}`);
                 const data = await res.json();
+               
 
                 if (res.ok) {
                     let countPostComments = 0;
@@ -63,9 +70,20 @@ export default function DashComponent() {
                                 countDicussionComments += 1;
                             }
                         });
-                        setUserComments(data);
+
                         setTotalPostComments(countPostComments);
                         setTotalDiscussionComments(countDicussionComments);
+
+                        const sortedComments = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+                        const totalComments = sortedComments.length;  
+                        const calculatedTotalPages = Math.ceil(totalComments / postsPerPage);
+                        setTotalPages(calculatedTotalPages);                        
+
+                        const startIdx = (page - 1) * postsPerPage;
+                        const endIdx = startIdx + postsPerPage;
+                        setUserComments(data.slice(startIdx, endIdx));
+
                     }
                 }
             } catch (error) {
@@ -78,9 +96,13 @@ export default function DashComponent() {
         }
 
         fetchUserDiscussions();
-        fetchUserCommentsCount();
+        fetchUserCommentsCount(currentPage);
 
-    }, [currentUser]);
+    }, [currentUser, currentPage]);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    }
 
     return (
         <div className="p-3 md:mx-auto">
@@ -129,14 +151,21 @@ export default function DashComponent() {
                 <h2 className="my-5 text-lg">Your Recent Comments</h2>
                 <div className="flex flex-wrap gap-2 justify-center ">
                     {userComments
-                        .slice() 
-                        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) 
+                        .slice()
+                        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                         .map((comment) => (
                             <CommentDisplay
                                 key={comment._id}
                                 comment={comment}
                             />
                         ))}
+                    <div className="flex justify-center mt-4">
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                        />
+                    </div>
                 </div>
             </div>
 

@@ -18,7 +18,7 @@ export default function Header() {
   const navigate = useNavigate();
   const logOut = async () => {
     try {
-      const res = await fetch('/api/user/signout', {
+      const res = await fetch('/api/user/logout', {
         method: 'POST'
       });
       const data = await res.json();

@@ -49,7 +49,7 @@ export default function Comments({ postId, discussionId }) {
                 const id = postId || discussionId;
                 const type = postId ? 'postId' : 'discussionId';
                 const res = await fetch(`/api/comment/getComments/${type}/${id}`);
-                console.log(`/api/comment/getComments/${type}/${id}`);
+               
                 if (res.ok) {
                     const data = await res.json();
                     setComments(data)
