@@ -21,6 +21,7 @@ import AllPosts from './pages/AllPosts';
 import PostByCategory from './pages/PostsByCategory';
 import Register from './pages/Register';
 import LogIn from './pages/LogIn';
+import ContactUs from './pages/ContactUs';
 
 
 
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="/edit-post/:postId" element={<EditPost />} />
 
         </Route>
+        <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/allposts" element={<AllPosts />} />
         <Route path="/forum" element={<Forum />} />
         <Route path="/post/:postSlug" element={<Post />} />
