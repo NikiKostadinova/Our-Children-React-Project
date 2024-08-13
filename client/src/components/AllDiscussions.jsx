@@ -121,7 +121,12 @@ export default function AllDiscussions() {
 
         </>
       ) : (
-        <p>Create Your First Post</p>
+        <>
+        <p className="mx-auto">Start Yor First Discussion</p>
+        <Link to={'/add-discussion'}>
+            <Button type='button' gradientDuoTone='pinkToOrange' className="w-full mt-3">Start Discussion</Button>
+          </Link>
+          </>
       )}
       <Modal show={showModal} onClose={() => setShowModal(false)} popup size='md'>
         <Modal.Header />

@@ -21,9 +21,9 @@ export default function DSidebar() {
     }
   },
     [location.search]);
-  const signOut = async () => {
+  const logOut = async () => {
     try {
-      const res = await fetch('/api/user/signout', {
+      const res = await fetch('/api/user/logout', {
         method: 'POST'
       });
       const data = await res.json();
@@ -61,8 +61,8 @@ export default function DSidebar() {
             <Sidebar.Item active={tab === 'discussions'} icon={MdOutlineMessage} as="div">Your Discussion</Sidebar.Item>
           </Link>
 
-          <Sidebar.Item icon={HiArrowSmRight} className="cursor-pointer" onClick={signOut}>
-            Sign Out
+          <Sidebar.Item icon={HiArrowSmRight} className="cursor-pointer" onClick={logOut}>
+            Log Out
           </Sidebar.Item>
         </Sidebar.ItemGroup>
       </Sidebar.Items>

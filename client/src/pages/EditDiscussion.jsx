@@ -26,7 +26,7 @@ export default function EditDiscussion() {
                 const res = await fetch(`/api/discussion/getdiscussions?discussionId=${discussionId}`);
                 const data = await res.json();
                 if (!res.ok) {
-                    console.log(data.message);
+                   
                     setErrorPublishing(data.message);
                 }
                 if (res.ok) {

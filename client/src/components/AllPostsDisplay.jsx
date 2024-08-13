@@ -110,11 +110,18 @@ export default function AllPostsDisplay() {
 
         </>
       ) : (
+        <>
         <p>Create Your First Post</p>
+        {currentUser.isAdmin && (
+          <Link to={'/add-new-post'}>
+            <Button type='button' gradientDuoTone='pinkToOrange' className="w-full mt-3" >Add New Post</Button>
+          </Link>
+        )}
+        </>
       )}
-      <Modal show={showModal} onClose={() => setShowModal(false)} popup size='md'  className="bg-transparent backdrop-blur-sm" >
-        <Modal.Header className="bg-white/80 shadow-lg" />
-        <Modal.Body className="bg-white/80 shadow-lg" >
+      <Modal show={showModal} onClose={() => setShowModal(false)} popup size='md'   >
+        <Modal.Header className="  bg-white/80 shadow-lg" />
+        <Modal.Body className="  bg-white/80 shadow-lg" >
           <div className="text-center">
             <HiOutlineExclamation className="h-14 w-14 text-red-700 mb-4 mx-auto" />
             <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">Are you sure you want to delete this post?</h3>

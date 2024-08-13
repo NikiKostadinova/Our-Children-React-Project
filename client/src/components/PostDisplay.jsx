@@ -9,7 +9,7 @@ export default function PostDisplay({ post }) {
         <img src={post.image} alt='Post Image' className='h-[100px] md:h-[200px] w-full object-cover group-hover:h-[80px] transition-all duration-300 z-20 ' />
       
       <div className='p-3 flex flex-col gap-2 '>
-        <p className='text-md md:text-lg font-semibold line-clamp-2'>{post.title}</p>
+        <p className='text-md md:text-lg font-semibold line-clamp-1'>{post.title}</p>
         <p className='italic text-sm mb-3 group-hover:hidden md:group-hover:block md:block'>{post.category}</p>            
       </div>
       <div className='absolute  bottom-0 left-0 right-0 p-3 transition-all duration-300 translate-y-[100%] group-hover:translate-y-0'>

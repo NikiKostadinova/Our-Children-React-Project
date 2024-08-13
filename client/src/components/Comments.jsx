@@ -34,7 +34,7 @@ export default function Comments({ postId, discussionId }) {
             if (res.ok) {
                 setComment('');
                 setCommentError(null);
-                setComments([data, ...comments]);
+                setComments(prevComments => [data, ...prevComments]);
             }
         } catch (error) {
             setCommentError(error.message)
