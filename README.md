@@ -34,7 +34,15 @@ Technologies Used
         MongoDB Atlas for database management and storage.
 
     Authentication:
-        Firebase for Google Authentication and image uploads.
+        Firebase for Google Authentication and image uploads.        
+       
+    Form Handling
+        Formspree for handling form submissions - Contact Us
+
+Deployment:
+
+    Deployed with Render.com.
+    Live at: https://our-children-react-project.onrender.com
 
 Setup and Development
 
