@@ -1,5 +1,5 @@
-import { Alert, Button, Modal, TextInput } from "flowbite-react";
-import { useEffect, useRef, useState } from "react";
+import {  Alert, Button, Modal, TextInput } from "flowbite-react";
+import { useCallback, useEffect, useRef, useState} from "react";
 
 import { useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +18,7 @@ import {
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { HiOutlineExclamation } from "react-icons/hi";
+import { FiPlusCircle } from "react-icons/fi";
 
 
 export default function Profile() {
@@ -42,23 +43,21 @@ export default function Profile() {
         }
 
     }
-    useEffect(() => {
-        if (imageFile) {
-            uploadImg();
-        }
-    }, [imageFile]);
+   
+    const uploadImg = useCallback(() => {
+        if (!imageFile) return; 
 
-    const uploadImg = async () => {
         setImgUploadError(null);
         setImgFileUploading(true);
+
         const storage = getStorage(app);
         const fileName = new Date().getTime() + imageFile.name;
         const storageRef = ref(storage, fileName);
         const uploadTask = uploadBytesResumable(storageRef, imageFile);
+
         uploadTask.on('state_changed', (snapshot) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             setImgUploadingProgress(progress.toFixed(0));
-
         },
             (error) => {
                 setImgUploadError('Image was not uploaded, file must be less than 2MB!');
@@ -66,17 +65,24 @@ export default function Profile() {
                 setImageFile(null);
                 setImageFileUrl(null);
                 setImgFileUploading(false);
-                console.log(error)
+                console.log(error);
             },
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     setImageFileUrl(downloadURL);
-                    setFormData({ ...formData, profilePicture: downloadURL });
+                    setFormData(prevFormData => ({ ...prevFormData, profilePicture: downloadURL }));
                     setImgFileUploading(false);
-                })
+                });
             }
-        )
-    }
+        );
+    }, [imageFile]);
+
+    useEffect(() => {
+        if (imageFile) {
+            uploadImg(); 
+        }
+    }, [imageFile, uploadImg]);
+    
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -142,26 +148,27 @@ export default function Profile() {
 
     const logOut = async () => {
         try {
-          const res = await fetch('/api/user/logout', {
-            method: 'POST'
-          });
-          const data = await res.json();
-          if (!res.ok) {
-            console.log(data.message);
-          } else {
-            dispatch(signOutSuccess());
-            navigate('/login');
-          }
+            const res = await fetch('/api/user/logout', {
+                method: 'POST'
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                console.log(data.message);
+            } else {
+                dispatch(signOutSuccess());
+                navigate('/login');
+            }
         } catch (error) {
-          console.log(error.message);
+            console.log(error.message);
         }
-      }
+    }
     return (
         <div className="max-w-lg mx-auto p-3 w-full">
             <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <input type="file" accept="image/*" onChange={handleImgChange} ref={filePickerRef} hidden />
                 <div className="relative w-32 h-32 self-center cursor-pointer shadow overflow-hidden rounded-full" onClick={() => filePickerRef.current.click()}>
+
                     {imgUploadingProgress && (
                         <CircularProgressbar value={imgUploadingProgress || 0} text={`${imgUploadingProgress}%`} strokeWidth={5} styles={{
                             root: {
@@ -182,8 +189,11 @@ export default function Profile() {
                         />
                     )}
                     <img src={imageFileUrl || currentUser.profilePicture} alt="user" className={`rounded-full w-full h-full object-cover border-4 border-[ligthgray] ${imgUploadingProgress && imgUploadingProgress < 100 && 'opacity-60'}`} />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 z-20">
+                        <FiPlusCircle className="text-white text-3xl" />
+                    </div>
                 </div>
-                {imgUploadError && <Alert color='failure'>{imgUploadError}</Alert>}
+                
                 <TextInput type="text" id="username" placeholder="username" defaultValue={currentUser.username} onChange={handleChange} />
                 <TextInput type="email" id="email" placeholder="email" defaultValue={currentUser.email} onChange={handleChange} />
                 <TextInput type="password" id="password" placeholder="password" onChange={handleChange} />
@@ -221,3 +231,6 @@ export default function Profile() {
         </div>
     );
 }
+
+
+
