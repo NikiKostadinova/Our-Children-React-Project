@@ -43,6 +43,7 @@ Deployment:
 
     Deployed with Render.com.
     Live at: https://our-children-react-project.onrender.com
+    Since the free version of the deployment is being used, it may take a couple of minutes to load the website.
 
 Setup and Development
 
